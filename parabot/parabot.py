@@ -1,14 +1,19 @@
 from multiprocessing import Pool
-from subprocess import run
-from typing import Any, List, Callable
+from typing import Any, Callable, List
 
 from robot.run import run
 
-from parabot.utils import parse_args, get_all_robot_files
+from parabot.utils import (
+    get_all_robot_files,
+    parse_args,
+    get_parent_dir,
+    create_output_folder,
+)
 
 
 def worker(filepath: str) -> None:
-    run(filepath)
+    basepath: Any = get_parent_dir(filepath)
+    run(filepath, outputdir=create_output_folder(basepath, filepath.name))
 
 
 def pool_jobs(worker: Callable, filepathslist: List[Any]) -> None:
