@@ -11,7 +11,7 @@ from parabot.utils import (
 )
 
 
-def worker(filepath: str) -> None:
+def worker(filepath: Any) -> None:
     basepath: Any = get_parent_dir(filepath)
     run(filepath, outputdir=create_output_folder(basepath, filepath.name))
 
