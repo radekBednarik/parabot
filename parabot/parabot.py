@@ -23,12 +23,13 @@ def pool_jobs(worker: Callable, filepathslist: List[Any]) -> None:
 
 
 def main() -> None:
+    filepathslist: List[Any]
     args: Any = parse_args()
 
     if args.all:
-        filepathslist: List[Any] = get_all_robot_files()
+        filepathslist = get_all_robot_files()
         pool_jobs(worker, filepathslist)
 
     elif hasattr(args, "folders"):
-        filepathslist: List[Any] = get_specific_robot_files_by_paths(args.folders)
+        filepathslist = get_specific_robot_files_by_paths(args.folders)
         pool_jobs(worker, filepathslist)

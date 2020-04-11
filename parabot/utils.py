@@ -31,7 +31,7 @@ def get_parent_dir(test_filepath: Any) -> Any:
 
 def create_output_folder(basepath: Any, filename: str) -> Any:
     timestamp: str = dt.now().strftime("%Y%m%d_%H%M%S")
-    dirname: str = "".join(["report_", filename.rstrip(".robot"), "_", timestamp])
+    dirname: str = "_".join(["report", filename.rstrip(".robot"), timestamp])
     return PurePath(basepath, dirname)
 
 
