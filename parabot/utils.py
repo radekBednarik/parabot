@@ -14,6 +14,14 @@ def parse_args() -> Any:
         action="store_true",
         help="Parallelize execution of all .robot files",
     )
+    parser.add_argument(
+        "-f",
+        "--folders",
+        action="extend",
+        nargs="+",
+        type=str,
+        help="Enter relative path to specific folder with .robot files.",
+    )
     return parser.parse_args()
 
 
@@ -29,3 +37,10 @@ def create_output_folder(basepath: Any, filename: str) -> Any:
 
 def get_all_robot_files() -> List[Any]:
     return list(Path(".").rglob("*.robot"))
+
+
+def get_specific_robot_files_by_paths(reldirpaths: List[str]) -> List[Any]:
+    output: List[Any] = []
+    for path in reldirpaths:
+        [output.append(path_) for path_ in list(Path(path).rglob("*.robot"))]
+    return output

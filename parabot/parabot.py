@@ -5,6 +5,7 @@ from robot.run import run
 
 from parabot.utils import (
     get_all_robot_files,
+    get_specific_robot_files_by_paths,
     parse_args,
     get_parent_dir,
     create_output_folder,
@@ -26,4 +27,8 @@ def main() -> None:
 
     if args.all:
         filepathslist: List[Any] = get_all_robot_files()
+        pool_jobs(worker, filepathslist)
+
+    elif hasattr(args, "folders"):
+        filepathslist: List[Any] = get_specific_robot_files_by_paths(args.folders)
         pool_jobs(worker, filepathslist)
