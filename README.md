@@ -15,7 +15,12 @@ It leverages multiprocessing package of python, so there is no worry about speci
 This tool currently supports:
 
 - run all .robot files in parallel: _python[3] manage.py -a_
-- run all .robot files in specific folders: _python[3] manage.py -f <relative_path_to_folder_1> ... <relative_path_to_folder_n>_
+
+  - this options is suitable in case, that your test project is structured so, that each test suite .robot file contains everything. If not, do not use this and use argument _-f_ or _--folders_, see below.
+
+- run all .robot files in specific folders: _python[3] manage.py -f <relative_path_to_folder_1> ... <relative_path_to_folder_n>_.
+
+  - you can specify multiple relative paths after the argument. This feature uses "extend" option introduced in Python's 3.8 argparse module. In lower versions this will not work and probably throws and error.
 
 Because of the parallel execution of the robotramework run module, the console outputs are bit garbled. However, log files are correctly saved to distinct and timestamped directories.
 
