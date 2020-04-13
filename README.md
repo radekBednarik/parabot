@@ -1,6 +1,10 @@
 # Parabot
 
-Utility for RobotFramework - run test .robot files in paralel even, if they are not specifically written for this.
+Utility for RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
+
+This utility **does not aim to replace pybot**. It is just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers two basic options.
+
+For much sophisticated solution, use Pybot.
 
 ## Table of Contents
 
@@ -16,11 +20,11 @@ This tool currently supports:
 
 - run all .robot files in parallel: _python[3] manage.py -a_
 
-  - this options is suitable in case, that your test project is structured so, that each test suite .robot file contains everything. If not, do not use this and use argument _-f_ or _--folders_, see below.
+  - this options is suitable in case, that your test project is structured in such a way, that each test suite .robot file contains everything. If not, do not use this and use argument _-f_ or _--folders_, see below.
 
 - run all .robot files in specific folders: _python[3] manage.py -f <relative_path_to_folder_1> ... <relative_path_to_folder_n>_.
 
-  - you can specify multiple relative paths after the argument. This feature uses "extend" option introduced in Python's 3.8 argparse module. In lower versions this will not work and probably throws and error.
+  - you can specify multiple relative paths after the argument. This feature uses "extend" option introduced in Python's 3.8 argparse module. In lower versions this will not work and probably throws an error.
 
 Because of the parallel execution of the robotramework run module, the console outputs are bit garbled. However, log files are correctly saved to distinct and timestamped directories.
 
@@ -41,7 +45,7 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
 ### Installing
 
 1. Run _[sudo] python[3] setup.py install_
-2. You can try the project on the examples tests in the folder _examples_. For that just run _python[3] manage.py -a_. Unfortunate side effect of running tests as parallel processes is a bit messed console output. However, log files are correctly places in timestamped directories in the appropriate test suite folder.
+2. You can try the project on the examples tests in the folder _examples_. Unfortunate side effect of running tests as parallel processes is a bit messed console output. However, log files are correctly places in timestamped directories in the appropriate test suite folder.
 3. To try it on your project:
 
    3.1 Create a new branch for this, if things get messed up!!!
@@ -52,4 +56,4 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
 
    3.4. Run some of currently supported commands
 
-   3.5. See what happens :). Depends on the structure of your project, where the output folders will be created. Rule is, that they are created _one level up_ of where .robot files are located.
+   3.5. See what happens :). Depends on the structure of your project, where the output folders will be created. Rule is, that they are created **in the folder where .robot files are located**.
