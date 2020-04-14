@@ -14,6 +14,7 @@ ${TEST_DATA_FILE_PATH}    examples/test_data.csv
 
 ***Test Cases***
 Homepage Title is Correct
+    [Tags]    smoke
     Get Test Data     ${TEST_DATA_FILE_PATH}
     Check Page Title  ${HOMEPAGE_TITLE_TEXT}
 

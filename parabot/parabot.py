@@ -1,4 +1,4 @@
-from multiprocessing import Pool
+from multiprocessing import Pool, Process
 from typing import Any, Callable, List
 
 from robot.run import run
@@ -28,6 +28,20 @@ def path_worker(filepath: Any) -> None:
     run(filepath, outputdir=create_output_folder(basepath, filepath.name))
 
 
+def tag_worker(tag: str) -> None:
+    """Worker used by Pool.
+
+    Runs instance of RobotFramework for given tag.
+    
+    Arguments:
+        tag {str} -- tag
+    
+    See:
+        https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run
+    """
+    run("./", outputdir=create_output_folder("./reports/", tag), include=[tag])
+
+
 def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
     """Runs path_worker against list of arguments in parallel.
 
@@ -39,6 +53,27 @@ def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
     """
     with Pool(maxtasksperchild=1) as p:
         p.map(path_worker, filepathslist)
+
+
+def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
+    """Runs tag_worker against list of tags in parallel.
+
+    For each tag is spawned one process.
+    
+    Arguments:
+        tag_worker {Callable} -- tag_worker function
+        tags {List[str]} -- list of tags 
+    """
+    procesess: List[Any] = []
+
+    for tag in tags:
+        p: Any = Process(target=tag_worker, args=(tag,))
+        p.start()
+        procesess.append(p)
+    # I am NOT really shure about this, but it works.
+    # Will welcome any clarification or corrections.
+    [proc.join() for proc in procesess]
+    p.close()
 
 
 def main() -> None:
@@ -57,3 +92,6 @@ def main() -> None:
     if args.folders is not None:
         filepathslist = get_specific_robot_files_by_paths(args.folders)
         pool_path_workers(path_worker, filepathslist)
+
+    if args.tags is not None:
+        pool_tag_workers(tag_worker, args.tags)

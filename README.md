@@ -26,6 +26,10 @@ This tool currently supports:
 
   - you can specify multiple relative paths after the argument. This feature uses "extend" option introduced in Python's 3.8 argparse module. In lower versions this will not work and probably throws an error.
 
+- run tagged tests/suites: _python[3] manage.py -t <tag_1> ... <tag_n>_
+
+  - use this option, if you want to run tagged test/suites in parallel. Since actual execution of tests is done by RobotFramework, parallelization in this case means **one tag == one process**. In each process are then sequentially run all tests/suites tagged by the same tag.
+
 Because of the parallel execution of the robotramework run module, the console outputs are bit garbled. However, log files are correctly saved to distinct and timestamped directories.
 
 ## Getting Started <a name = "getting_started"></a>
@@ -56,4 +60,10 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
 
    3.4. Run some of currently supported commands
 
-   3.5. See what happens :). Depends on the structure of your project, where the output folders will be created. Rule is, that they are created **in the folder where .robot files are located**.
+   3.5. See what happens :).
+
+### Test reports
+
+For options _-a_ and _-f_ are timestamped report folders created in the same folder, where .robot file (test suite) is located.
+
+For option _-t_ the timestamped report folders for **each tag** are created in the _reports_ folder located in the root.

@@ -30,6 +30,14 @@ def parse_args() -> Any:
         type=str,
         help="Enter relative path to specific folder with .robot files.",
     )
+    parser.add_argument(
+        "-t",
+        "--tags",
+        action="extend",
+        nargs="+",
+        type=str,
+        help="Enter tags of tests/suites you want to run in parallel.",
+    )
     return parser.parse_args()
 
 
