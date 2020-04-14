@@ -29,7 +29,7 @@ def path_worker(filepath: Any) -> None:
 
 
 def tag_worker(tag: str) -> None:
-    """Worker used by Pool.
+    """Worker used by Process.
 
     Runs instance of RobotFramework for given tag.
     
