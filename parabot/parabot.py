@@ -73,7 +73,6 @@ def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
     # I am NOT really shure about this, but it works.
     # Will welcome any clarification or corrections.
     [proc.join() for proc in procesess]
-    p.close()
 
 
 def main() -> None:
