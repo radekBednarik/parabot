@@ -2,9 +2,9 @@
 
 Utility for RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
 
-This utility **does not aim to replace pybot**. It is just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers three basic options.
+This utility **does not aim to replace pabot**. It is just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers three basic options.
 
-For much sophisticated solution, use Pybot.
+For much sophisticated solution, use Pabot.
 
 ## Table of Contents
 
