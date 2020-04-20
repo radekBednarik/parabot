@@ -1,6 +1,6 @@
 # Parabot
 
-Utility for RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
+Utility for tests written using RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
 
 This utility **does not aim to replace pabot**. It is just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers three basic options.
 
