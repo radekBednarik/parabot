@@ -1,4 +1,4 @@
-from multiprocessing import Pool, Process
+from multiprocessing import Pool, Process, get_context
 from typing import Any, Callable, List
 
 from robot.run import run
@@ -51,7 +51,7 @@ def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
         path_worker {Callable} -- path_worker function
         filepathslist {List[Any]} -- list of python PurePaths to .robot files
     """
-    with Pool(maxtasksperchild=1) as p:
+    with get_context("spawn").Pool(maxtasksperchild=1) as p:
         p.map(path_worker, filepathslist)
 
 
