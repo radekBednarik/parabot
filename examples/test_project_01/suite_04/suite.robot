@@ -10,13 +10,15 @@ ${BROWSER}                chrome
 ${HOMEPAGE}               https://www.tesena.com/
 ${HOMEPAGE_TITLE_TEXT}    Tesena
 ${TEST_DATA_FILE_PATH}    examples/test_data.csv
+${PAGE_TITLE_FILE}        examples/page_title.txt
 
 
 ***Test Cases***
 Homepage Title is Correct
-    [Tags]    reg
+    [Tags]    smoke
     Get Test Data     ${TEST_DATA_FILE_PATH}
     Check Page Title  ${HOMEPAGE_TITLE_TEXT}
+    Save Page Title  ${PAGE_TITLE_FILE}
 
 
 ***Keywords***
@@ -33,3 +35,8 @@ Check Page Title
 Get Test Data
     [Arguments]         ${filepath}
     ${file_content}=    Get File    ${filepath}
+
+
+Save Page Title
+    [Arguments]    ${filepath}
+    Append To File    ${filepath}    ${HOMEPAGE_TITLE_TEXT}
