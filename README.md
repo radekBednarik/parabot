@@ -30,8 +30,6 @@ This tool currently supports:
 
   - use this option, if you want to run tagged test/suites in parallel. Since actual execution of tests is done by RobotFramework, parallelization in this case means **one tag == one process**. In each process are then sequentially run all tests/suites tagged by the same tag.
 
-Because of the parallel execution of the robotramework run module, the console outputs are bit garbled. However, log files are correctly saved to distinct and timestamped directories.
-
 ## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -49,7 +47,7 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
 ### Installing
 
 1. Run _[sudo] python[3] setup.py install_
-2. You can try the project on the examples tests in the folder _examples_. Unfortunate side effect of running tests as parallel processes is a bit messed console output. However, log files are correctly places in timestamped directories in the appropriate test suite folder.
+2. You can try the project on the examples tests in the folder _examples_.
 3. To try it on your project:
 
    3.1 Create a new branch for this, if things get messed up!!!
