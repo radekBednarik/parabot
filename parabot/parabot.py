@@ -1,15 +1,15 @@
-from multiprocessing import Pool, Process, get_context
 from io import StringIO
+from multiprocessing import Process, get_context
 from typing import Any, Callable, List
 
 from robot.run import run
 
 from parabot.utils import (
+    create_output_folder,
     get_all_robot_files,
+    get_parent_dir,
     get_specific_robot_files_by_paths,
     parse_args,
-    get_parent_dir,
-    create_output_folder,
 )
 
 
@@ -31,6 +31,7 @@ def path_worker(filepath: Any) -> None:
         filepath, outputdir=create_output_folder(basepath, filepath.name), stdout=stdout
     )
     print(stdout.getvalue())
+    stdout.close()
 
 
 def tag_worker(tag: str) -> None:
@@ -52,6 +53,7 @@ def tag_worker(tag: str) -> None:
         stdout=stdout,
     )
     print(stdout.getvalue())
+    stdout.close()
 
 
 def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
