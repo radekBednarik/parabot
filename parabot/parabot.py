@@ -1,4 +1,5 @@
 from multiprocessing import Pool, Process, get_context
+from io import StringIO
 from typing import Any, Callable, List
 
 from robot.run import run
@@ -25,7 +26,11 @@ def path_worker(filepath: Any) -> None:
         https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run
     """
     basepath: Any = get_parent_dir(filepath)
-    run(filepath, outputdir=create_output_folder(basepath, filepath.name))
+    stdout: Any = StringIO()
+    run(
+        filepath, outputdir=create_output_folder(basepath, filepath.name), stdout=stdout
+    )
+    print(stdout.getvalue())
 
 
 def tag_worker(tag: str) -> None:
@@ -39,7 +44,14 @@ def tag_worker(tag: str) -> None:
     See:
         https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run
     """
-    run("./", outputdir=create_output_folder("./reports/", tag), include=[tag])
+    stdout: Any = StringIO()
+    run(
+        "./",
+        outputdir=create_output_folder("./reports/", tag),
+        include=[tag],
+        stdout=stdout,
+    )
+    print(stdout.getvalue())
 
 
 def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
