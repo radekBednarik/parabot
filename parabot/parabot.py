@@ -108,3 +108,7 @@ def main() -> None:
 
     if args.tags is not None:
         pool_tag_workers(tag_worker, args.tags)
+
+
+if __name__ == "__main__":
+    main()
