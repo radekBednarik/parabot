@@ -46,6 +46,10 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
 
 ### Installing
 
+You can either clone this package from the repository, or install it via pip.
+
+In case of cloning, use these steps to install:
+
 1. Run _[sudo] python[3] parabot/setup.py install_
 2. You can try the project on the examples tests in the folder _examples_.
 3. To try it on your project:
@@ -59,6 +63,12 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
    3.4. Run some of currently supported commands
 
    3.5. See what happens :).
+
+In case of using pip:
+
+1. Run command _sudo pip3 install parabot_
+
+2. Then try available commands as described above.
 
 ### Test reports
 
