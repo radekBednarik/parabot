@@ -66,7 +66,7 @@ def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
         filepathslist {List[Any]} -- list of python PurePaths to .robot files
     """
     with get_context("spawn").Pool(maxtasksperchild=1) as p:
-        p.map(path_worker, filepathslist)
+        p.map_async(path_worker, filepathslist).get(60)
 
 
 def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
