@@ -2,7 +2,7 @@
 
 Utility for tests written using RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
 
-This utility **does not aim to replace pabot**. It is just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers three basic options.
+This utility **does not aim to replace pabot**. It is basically a test executor - just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers three basic options.
 
 For much sophisticated solution, use Pabot.
 
@@ -18,15 +18,15 @@ It leverages multiprocessing package of python, so there is no worry about speci
 
 This tool currently supports:
 
-- run all .robot files in parallel: _python[3] manage.py -a_
+- run all .robot files in parallel: _python[3] -m parabot -a_
 
   - this options is suitable in case, that your test project is structured in such a way, that each test suite .robot file contains everything. If not, do not use this and use argument _-f_ or _--folders_, see below.
 
-- run all .robot files in specific folders: _python[3] manage.py -f <relative_path_to_folder_1> ... <relative_path_to_folder_n>_.
+- run all .robot files in specific folders: _python[3] -m parabot -f <relative_path_to_folder_1> ... <relative_path_to_folder_n>_.
 
   - you can specify multiple relative paths after the argument. This feature uses "extend" option introduced in Python's 3.8 argparse module. In lower versions this will not work and probably throws an error.
 
-- run tagged tests/suites: _python[3] manage.py -t <tag_1> ... <tag_n>_
+- run tagged tests/suites: _python[3] -m parabot -t <tag_1> ... <tag_n>_
 
   - use this option, if you want to run tagged test/suites in parallel. Since actual execution of tests is done by RobotFramework, parallelization in this case means **one tag == one process**. In each process are then sequentially run all tests/suites tagged by the same tag.
 
@@ -46,15 +46,15 @@ Just run [sudo] python[3] setup.py install and it will take care of it for you.
 
 ### Installing
 
-1. Run _[sudo] python[3] setup.py install_
+1. Run _[sudo] python[3] parabot/setup.py install_
 2. You can try the project on the examples tests in the folder _examples_.
 3. To try it on your project:
 
    3.1 Create a new branch for this, if things get messed up!!!
 
-   3.2 Copy _parabot folder, manage.py and setup.py_ into the root of your project
+   3.2 Copy _parabot folder_ into the root of your project
 
-   3.3. Run _[sudo] python[3] setup.py install_
+   3.3. Run _[sudo] python[3] parabot/setup.py install_
 
    3.4. Run some of currently supported commands
 
