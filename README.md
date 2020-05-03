@@ -30,6 +30,10 @@ This tool currently supports:
 
   - use this option, if you want to run tagged test/suites in parallel. Since actual execution of tests is done by RobotFramework, parallelization in this case means **one tag == one process**. In each process are then sequentially run all tests/suites tagged by the same tag.
 
+- change default timeout when using parameters _-a_ or _-f_: _python[3] -m parabot -to [int]_
+
+  - when suites are executed using parameters _-a_ or _-f_, scripts are using Python multiprocessing method _Pool.map_async_ with default **60 second timeout**. If your tests are running longer then that, this will throw an TimeoutException. In this case, use this parameter to increase the timeout value.
+
 ## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

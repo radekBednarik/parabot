@@ -38,6 +38,13 @@ def parse_args() -> Any:
         type=str,
         help="Enter tags of tests/suites you want to run in parallel.",
     )
+    parser.add_argument(
+        "-to",
+        "--timeout",
+        action="store",
+        type=int,
+        help="Enter timeout in seconds if default 60 secs timeout for -f and -a args is too short for you.",
+    )
     return parser.parse_args()
 
 
