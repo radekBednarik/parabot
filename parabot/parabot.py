@@ -1,5 +1,6 @@
 from io import StringIO
 from multiprocessing import Process, get_context
+from multiprocessing.context import TimeoutError
 from typing import Any, Callable, List
 
 from robot.run import run
@@ -56,7 +57,9 @@ def tag_worker(tag: str) -> None:
     stdout.close()
 
 
-def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
+def pool_path_workers(
+    path_worker: Callable, filepathslist: List[Any], timeout=60
+) -> None:
     """Runs path_worker against list of arguments in parallel.
 
     Max. number of parallel processes is limited by no. of CPUs cores.
@@ -64,9 +67,16 @@ def pool_path_workers(path_worker: Callable, filepathslist: List[Any]) -> None:
     Arguments:
         path_worker {Callable} -- path_worker function
         filepathslist {List[Any]} -- list of python PurePaths to .robot files
+        timeout {int} -- timeout for async pool.map_async method. Can be altered by passing
+        [-to <int>] or [--timeout <int>] CLI argument 
     """
     with get_context("spawn").Pool(maxtasksperchild=1) as p:
-        p.map_async(path_worker, filepathslist).get(60)
+        try:
+            p.map_async(path_worker, filepathslist).get(timeout)
+        except TimeoutError as e:
+            print(
+                f"Your tests are running too long. Consider increasing the timeout via CLI parameter -to or --timeout.\n {str(e)}"
+            )
 
 
 def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
@@ -98,13 +108,19 @@ def main() -> None:
     filepathslist: List[Any]
     args: Any = parse_args()
 
-    if args.all:
+    if args.all and (args.timeout is None):
         filepathslist = get_all_robot_files()
         pool_path_workers(path_worker, filepathslist)
+    elif args.all and (args.timeout is not None):
+        filepathslist = get_all_robot_files()
+        pool_path_workers(path_worker, filepathslist, timeout=args.timeout)
 
-    if args.folders is not None:
+    if (args.folders is not None) and (args.timeout is None):
         filepathslist = get_specific_robot_files_by_paths(args.folders)
         pool_path_workers(path_worker, filepathslist)
+    elif (args.folders is not None) and (args.timeout is not None):
+        filepathslist = get_specific_robot_files_by_paths(args.folders)
+        pool_path_workers(path_worker, filepathslist, timeout=args.timeout)
 
     if args.tags is not None:
         pool_tag_workers(tag_worker, args.tags)
