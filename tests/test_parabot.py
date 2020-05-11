@@ -1,5 +1,5 @@
 from pathlib import PurePath, Path
-from typing import Any, List, Callable, Union
+from typing import Any, List, Callable, Union, Optional
 
 import pytest
 
@@ -23,10 +23,10 @@ def provide_tag(request) -> str:
 
 
 class TestParabot(object):
-    def test_path_worker(self, provide_robot_filepath) -> None:
-        status: int = parabot.path_worker(provide_robot_filepath)
+    def test_path_worker(self, provide_robot_filepath):
+        status: Optional[int] = parabot.path_worker(provide_robot_filepath)
         assert status is None
 
-    def test_tag_worker(self, provide_tag) -> None:
-        status: int = parabot.tag_worker(provide_tag)
+    def test_tag_worker(self, provide_tag):
+        status: Optional[int] = parabot.tag_worker(provide_tag)
         assert status is None

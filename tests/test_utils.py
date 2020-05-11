@@ -37,23 +37,23 @@ def provide_rel_dirpath(request) -> str:
 
 
 class TestUtils(object):
-    def test_get_parent_dir(self, provide_path) -> Any:
+    def test_get_parent_dir(self, provide_path):
         parent: Any = utils.get_parent_dir(provide_path)
         assert parent == PurePath(provide_path).parent
 
-    def test_get_all_robot_files(self) -> List[Any]:
+    def test_get_all_robot_files(self):
         files: List[Any] = utils.get_all_robot_files()
         assert len(files) > 0
         assert isinstance(files[0], Path)
 
-    def test_create_output_folder(self, provide_pure_path) -> Any:
+    def test_create_output_folder(self, provide_pure_path):
         output_fold_path: Any = utils.create_output_folder(
             provide_pure_path, "suite.robot"
         )
         assert isinstance(output_fold_path, PurePath)
         assert len(str(output_fold_path)) > 0
 
-    def test_get_spec_robot_files(self, provide_rel_dirpath) -> List[Any]:
+    def test_get_spec_robot_files(self, provide_rel_dirpath):
         list_of_paths: List[Any] = utils.get_specific_robot_files_by_paths(
             provide_rel_dirpath
         )

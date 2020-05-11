@@ -1,7 +1,7 @@
 from io import StringIO
 from multiprocessing import Process, get_context
 from multiprocessing.context import TimeoutError
-from typing import Any, Callable, List
+from typing import Any, Callable, List, Optional
 
 from robot.run import run
 
@@ -14,7 +14,17 @@ from parabot.utils import (
 )
 
 
-def path_worker(filepath: Any) -> None:
+def _check_stderr(stderr: Any) -> Optional[int]:
+    if stderr.getvalue() != "":
+        print(stderr.getvalue())
+        stderr.close()
+        return 1
+    else:
+        stderr.close()
+        return None
+
+
+def path_worker(filepath: Any) -> Optional[int]:
     """Worker used by Pool.
 
     Runs instance of RobotFramework for given .robot file.
@@ -31,14 +41,20 @@ def path_worker(filepath: Any) -> None:
     """
     basepath: Any = get_parent_dir(filepath)
     stdout: Any = StringIO()
+    stderr: Any = StringIO("")
     run(
-        filepath, outputdir=create_output_folder(basepath, filepath.name), stdout=stdout
+        filepath,
+        outputdir=create_output_folder(basepath, filepath.name),
+        stdout=stdout,
+        stderr=stderr,
     )
     print(stdout.getvalue())
     stdout.close()
 
+    return _check_stderr(stderr)
 
-def tag_worker(tag: str) -> None:
+
+def tag_worker(tag: str) -> Optional[int]:
     """Worker used by Process.
 
     Runs instance of RobotFramework for given tag.
@@ -53,14 +69,18 @@ def tag_worker(tag: str) -> None:
         https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run
     """
     stdout: Any = StringIO()
+    stderr: Any = StringIO("")
     run(
         "./",
         outputdir=create_output_folder("./reports/", tag),
         include=[tag],
         stdout=stdout,
+        stderr=stderr,
     )
     print(stdout.getvalue())
     stdout.close()
+
+    return _check_stderr(stderr)
 
 
 def pool_path_workers(
