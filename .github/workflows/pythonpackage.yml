@@ -33,7 +33,7 @@ jobs:
             && sudo mv chromedriver /usr/local/bin/chromedriver \
             && sudo chmod +x /usr/local/bin/chromedriver \
             && chromedriver --version \
-            && cd ~
+            && cd ..
           sudo apt-get install xvfb
           python3 -m pip install --upgrade pip
           sudo pip3 install setuptools wheel black pytest robotframework selenium robotframework-seleniumLibrary
