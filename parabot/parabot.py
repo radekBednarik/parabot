@@ -21,6 +21,9 @@ def path_worker(filepath: Any) -> None:
     
     Arguments:
         filepath {Any} -- python PurePath to .robot file to be executed by robot.run.run
+
+    Returns:
+        None
     
     See:
         https://docs.python.org/3/library/pathlib.html
@@ -42,6 +45,9 @@ def tag_worker(tag: str) -> None:
     
     Arguments:
         tag {str} -- tag
+
+    Returns:
+        None
     
     See:
         https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run
