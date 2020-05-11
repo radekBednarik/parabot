@@ -3,7 +3,7 @@ from multiprocessing import Process, get_context
 from multiprocessing.context import TimeoutError
 from typing import Any, Callable, List, Optional
 
-from robot.run import run
+from robot.run import run  # type: ignore
 
 from parabot.utils import (
     create_output_folder,

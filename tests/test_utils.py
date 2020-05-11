@@ -1,9 +1,9 @@
 from pathlib import Path, PurePath
 from typing import Any, List
 
-import pytest
+import pytest  # type: ignore
 
-from parabot import utils
+from parabot import utils  # type: ignore
 
 
 @pytest.fixture(

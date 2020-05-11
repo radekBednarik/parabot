@@ -100,5 +100,5 @@ def get_specific_robot_files_by_paths(reldirpaths: List[str]) -> List[Any]:
     """
     output: List[Any] = []
     for path in reldirpaths:
-        [output.append(path_) for path_ in list(Path(path).rglob("*.robot"))]
+        [output.append(path_) for path_ in list(Path(path).rglob("*.robot"))]  # type: ignore
     return output

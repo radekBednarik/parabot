@@ -1,9 +1,9 @@
 from pathlib import PurePath, Path
 from typing import Any, List, Callable, Union, Optional
 
-import pytest
+import pytest  # type: ignore
 
-from parabot import parabot
+from parabot import parabot  # type: ignore
 
 
 @pytest.fixture(
