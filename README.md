@@ -1,5 +1,6 @@
 # Parabot
 ![Upload Python Package](https://github.com/bednaJedna/parabot/workflows/Upload%20Python%20Package/badge.svg)
+![Formatting and unit testing](https://github.com/bednaJedna/parabot/workflows/Formatting%20and%20unit%20testing/badge.svg)
 
 Utility for tests written using RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
 
