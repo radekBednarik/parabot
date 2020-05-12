@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo apt-get install xvfb
           python3 -m pip install --upgrade pip
-          sudo pip3 install setuptools wheel black pytest pylint robotframework selenium robotframework-seleniumLibrary
+          sudo pip3 install setuptools wheel black pytest robotframework selenium robotframework-seleniumLibrary
           if [ -f requirements.txt ]; then sudo pip3 install -r requirements.txt; fi
           sudo python3 parabot/setup.py install
           CHROME_VERSION=$(google-chrome --version | cut -f 3 -d ' ' | cut -d '.' -f 1) \
@@ -38,10 +38,9 @@ jobs:
             && sudo mv chromedriver /usr/local/bin/chromedriver \
             && sudo chmod +x /usr/local/bin/chromedriver \
             && chromedriver --version
-      - name: Format (black) & Lint (pylint) 
+      - name: Format (black)
         run: |
           black ./
-          pylint ./parabot ./tests --disable=C,R,W
       - name: Test with pytest
         uses: GabrielBB/xvfb-action@v1.2
         with:
