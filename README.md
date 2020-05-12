@@ -1,6 +1,8 @@
 # Parabot
 ![Upload Python Package](https://github.com/bednaJedna/parabot/workflows/Upload%20Python%20Package/badge.svg)
 ![PR Pipeline](https://github.com/bednaJedna/parabot/workflows/PR%20Pipeline/badge.svg)
+
+
 Utility for tests written using RobotFramework - run test .robot files in parallel even if they are not specifically written for this.
 
 This utility **does not aim to replace pabot**. It is basically a test executor - just a quick project to be able to execute in parallel previously written RF test run in serial fashion. As such, it only offers three basic options.
