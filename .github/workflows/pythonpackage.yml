@@ -44,4 +44,4 @@ jobs:
       - name: Test with pytest
         uses: GabrielBB/xvfb-action@v1.2
         with:
-          run: pytest ./tests -v
+          run: python3 -m pytest ./tests -v
