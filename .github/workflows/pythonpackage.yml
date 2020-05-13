@@ -43,4 +43,5 @@ jobs:
       - name: Test with pytest
         run: |
           pip install pytest
+          sudo -H python parabot/setup.py install
           xvfb-run python -m pytest ./tests -v
