@@ -36,11 +36,11 @@ jobs:
             && chromedriver --version
       - name: Format (black)
         run: |
-          pip install black setuptools wheel black robotframework selenium robotframework-seleniumLibrary
-          sudo -H python parabot/setup.py install
+          pip3 install black setuptools wheel black robotframework selenium robotframework-seleniumLibrary
+          sudo -H python3 parabot/setup.py install
           black ./
       - name: Test with pytest
         run: |
-          pip install pytest setuptools wheel black pytest robotframework selenium robotframework-seleniumLibrary
-          sudo -H python parabot/setup.py install
-          xvfb-run python -m pytest ./tests -v
+          pip3 install pytest setuptools wheel black pytest robotframework selenium robotframework-seleniumLibrary
+          sudo -H python3 parabot/setup.py install
+          xvfb-run python3 -m pytest ./tests -v
