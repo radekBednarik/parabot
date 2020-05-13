@@ -1,7 +1,7 @@
 from io import StringIO
 from multiprocessing import Process, get_context
 from multiprocessing.context import TimeoutError
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, List, Optional, Union
 
 from robot.run import run  # type: ignore
 
@@ -85,7 +85,7 @@ def tag_worker(tag: str) -> Optional[int]:
 
 def pool_path_workers(
     path_worker: Callable, filepathslist: List[Any], timeout=60
-) -> None:
+) -> Union[List[Optional[int]], int]:
     """Runs path_worker against list of arguments in parallel.
 
     Max. number of parallel processes is limited by no. of CPUs cores.
@@ -95,14 +95,18 @@ def pool_path_workers(
         filepathslist {List[Any]} -- list of python PurePaths to .robot files
         timeout {int} -- timeout for async pool.map_async method. Can be altered by passing
         [-to <int>] or [--timeout <int>] CLI argument 
+    
+    Returns:
+        status {Union[List[Optional[int]], int]} -- None:OK, 1:NOK
     """
     with get_context("spawn").Pool(maxtasksperchild=1) as p:
         try:
-            p.map_async(path_worker, filepathslist).get(timeout)
-        except TimeoutError as e:
+            return p.map_async(path_worker, filepathslist).get(timeout)
+        except TimeoutError:
             print(
-                f"Your tests are running too long. Consider increasing the timeout via CLI parameter -to or --timeout.\n {str(e)}"
+                "Your tests are running too long. Consider increasing the timeout via CLI parameter -to or --timeout."
             )
+            return 1
 
 
 def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:

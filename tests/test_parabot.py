@@ -1,3 +1,4 @@
+from multiprocessing.context import TimeoutError
 from pathlib import PurePath, Path
 from typing import Any, List, Callable, Union, Optional
 
@@ -64,7 +65,31 @@ def run_invalid_tag_worker(provide_invalid_tag) -> Optional[int]:
     return result
 
 
-class TestParabot(object):
+@pytest.fixture(scope="session")
+def run_valid_pool_path_workers() -> Union[List[Optional[int]], int]:
+    return parabot.pool_path_workers(
+        parabot.path_worker,
+        [
+            Path("examples/test_project_01/suite_01/suite.robot"),
+            Path("examples/test_project_02/suite_01/suite.robot"),
+        ],
+        timeout=60,
+    )
+
+
+@pytest.fixture(scope="session")
+def run_timeout_pool_path_workers() -> Union[List[Optional[int]], int]:
+    return parabot.pool_path_workers(
+        parabot.path_worker,
+        [
+            Path("examples/test_project_01/suite_01/suite.robot"),
+            Path("examples/test_project_02/suite_01/suite.robot"),
+        ],
+        timeout=5,
+    )
+
+
+class TestParabotWorkers(object):
     def test_path_worker_valid(self, run_valid_path_worker):
         status: Optional[int] = run_valid_path_worker
         assert status == None
@@ -79,4 +104,14 @@ class TestParabot(object):
 
     def test_tag_worker_invalid(self, run_invalid_tag_worker):
         status: Optional[int] = run_invalid_tag_worker
+        assert status == 1
+
+
+class TestParabotPools(object):
+    def test_valid_pool_path_workers(self, run_valid_pool_path_workers):
+        status: List[Optional[int]] = run_valid_pool_path_workers
+        assert 1 not in status
+
+    def test_timeout_pool_path_workers(self, run_timeout_pool_path_workers):
+        status: int = run_timeout_pool_path_workers
         assert status == 1
