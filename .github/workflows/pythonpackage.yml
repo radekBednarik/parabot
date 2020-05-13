@@ -41,7 +41,6 @@ jobs:
       - name: Format (black)
         run: black ./
       - name: Test with pytest
-        run: xvfb-run pytest ./tests -v
-        # uses: GabrielBB/xvfb-action@v1.2
-        # with:
-        #   run: python3 -m pytest ./tests -v
+        run: |
+          pip install pytest
+          xvfb-run python -m pytest ./tests -v
