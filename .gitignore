@@ -228,6 +228,7 @@ dmypy.json
 
 ### VisualStudioCode ###
 .vscode
+!.vscode/tasks.json
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files

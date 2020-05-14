@@ -30,7 +30,7 @@ def provide_invalid_robot_filepath(request) -> Any:
     return request.param
 
 
-@pytest.fixture(scope="session", params=["reg", "smoke", ""])
+@pytest.fixture(scope="session", params=["reg", "smoke"])
 def provide_valid_tag(request) -> str:
     return request.param
 
