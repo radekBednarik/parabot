@@ -33,7 +33,7 @@ def path_worker(filepath: Any) -> Optional[int]:
         filepath {Any} -- python PurePath to .robot file to be executed by robot.run.run
 
     Returns:
-        None
+        status {Optional[int]} -- None:OK, 1: NOK
     
     See:
         https://docs.python.org/3/library/pathlib.html
@@ -63,7 +63,7 @@ def tag_worker(tag: str) -> Optional[int]:
         tag {str} -- tag
 
     Returns:
-        None
+        status {Optional[int]} -- None: OK, 1: NOK
     
     See:
         https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run

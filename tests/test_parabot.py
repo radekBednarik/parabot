@@ -4,7 +4,7 @@ from typing import Any, List, Callable, Union, Optional
 
 import pytest  # type: ignore
 
-from parabot import parabot  # type: ignore
+from parabot import parabot
 
 
 @pytest.fixture(
