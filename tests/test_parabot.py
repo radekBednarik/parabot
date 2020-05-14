@@ -88,6 +88,11 @@ def run_timeout_pool_path_workers() -> Union[List[Optional[int]], int]:
     )
 
 
+@pytest.fixture(scope="session")
+def run_valid_pool_tag_workers() -> List[Optional[int]]:
+    return parabot.pool_tag_workers(parabot.tag_worker, ["reg", "smoke"])
+
+
 class TestParabotWorkers:
     def test_path_worker_valid(self, run_valid_path_worker):
         status: Optional[int] = run_valid_path_worker
@@ -114,3 +119,15 @@ class TestParabotPools:
     def test_timeout_pool_path_workers(self, run_timeout_pool_path_workers):
         status: int = run_timeout_pool_path_workers
         assert status == 1
+
+    def test_valid_pool_tag_workers(self, run_valid_pool_tag_workers):
+        status: List[Optional[int]] = run_valid_pool_tag_workers
+        check: List[bool] = []
+
+        for stat in status:
+            if stat == 0:
+                check.append(True)
+            else:
+                check.append(False)
+
+        assert all(check) is True

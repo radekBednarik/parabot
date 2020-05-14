@@ -110,14 +110,21 @@ def pool_path_workers(
             return 1
 
 
-def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
+def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> List[Optional[int]]:
     """Runs tag_worker against list of tags in parallel.
 
     For each tag is spawned one process.
     
     Arguments:
         tag_worker {Callable} -- tag_worker function
-        tags {List[str]} -- list of tags 
+        tags {List[str]} -- list of tags
+
+    Returns:
+        {List[Optional[int]]} -- None: if process not yet terminated,
+        0: if process terminated, -N if process terminated by signal N
+
+    See:
+        https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Process.exitcode 
     """
     procesess: List[Any] = []
 
@@ -125,10 +132,11 @@ def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
         p: Any = Process(target=tag_worker, args=(tag,))
         p.start()
         procesess.append(p)
-    # I am NOT really shure about this, but it works.
-    # Will welcome any clarification or corrections.
+
     # pylint: disable=expression-not-assigned
     [proc.join() for proc in procesess]
+
+    return [proc.exitcode for proc in procesess]
 
 
 def main() -> None:
