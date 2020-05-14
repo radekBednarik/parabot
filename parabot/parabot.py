@@ -1,7 +1,7 @@
 from io import StringIO
 from multiprocessing import Process, get_context
-from multiprocessing.context import TimeoutError
-from typing import Any, Callable, List, Optional
+from multiprocessing.context import TimeoutError  # pylint: disable=redefined-builtin
+from typing import Any, Callable, List, Optional, Union
 
 from robot.run import run  # type: ignore
 
@@ -15,6 +15,7 @@ from parabot.utils import (
 
 
 def _check_stderr(stderr: Any) -> Optional[int]:
+    # pylint: disable=no-else-return
     if stderr.getvalue() != "":
         print(stderr.getvalue())
         stderr.close()
@@ -33,7 +34,7 @@ def path_worker(filepath: Any) -> Optional[int]:
         filepath {Any} -- python PurePath to .robot file to be executed by robot.run.run
 
     Returns:
-        None
+        status {Optional[int]} -- None:OK, 1: NOK
     
     See:
         https://docs.python.org/3/library/pathlib.html
@@ -63,7 +64,7 @@ def tag_worker(tag: str) -> Optional[int]:
         tag {str} -- tag
 
     Returns:
-        None
+        status {Optional[int]} -- None: OK, 1: NOK
     
     See:
         https://robot-framework.readthedocs.io/en/v3.1.2/autodoc/robot.html#module-robot.run
@@ -85,7 +86,7 @@ def tag_worker(tag: str) -> Optional[int]:
 
 def pool_path_workers(
     path_worker: Callable, filepathslist: List[Any], timeout=60
-) -> None:
+) -> Union[List[Optional[int]], int]:
     """Runs path_worker against list of arguments in parallel.
 
     Max. number of parallel processes is limited by no. of CPUs cores.
@@ -95,24 +96,35 @@ def pool_path_workers(
         filepathslist {List[Any]} -- list of python PurePaths to .robot files
         timeout {int} -- timeout for async pool.map_async method. Can be altered by passing
         [-to <int>] or [--timeout <int>] CLI argument 
+    
+    Returns:
+        status {Union[List[Optional[int]], int]} -- None:OK, 1:NOK
     """
     with get_context("spawn").Pool(maxtasksperchild=1) as p:
         try:
-            p.map_async(path_worker, filepathslist).get(timeout)
-        except TimeoutError as e:
+            return p.map_async(path_worker, filepathslist).get(timeout)
+        except TimeoutError:
             print(
-                f"Your tests are running too long. Consider increasing the timeout via CLI parameter -to or --timeout.\n {str(e)}"
+                "Your tests are running too long. Consider increasing the timeout via CLI parameter -to or --timeout."
             )
+            return 1
 
 
-def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
+def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> List[Optional[int]]:
     """Runs tag_worker against list of tags in parallel.
 
     For each tag is spawned one process.
     
     Arguments:
         tag_worker {Callable} -- tag_worker function
-        tags {List[str]} -- list of tags 
+        tags {List[str]} -- list of tags
+
+    Returns:
+        {List[Optional[int]]} -- None: if process not yet terminated,
+        0: if process terminated, -N if process terminated by signal N
+
+    See:
+        https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Process.exitcode 
     """
     procesess: List[Any] = []
 
@@ -120,9 +132,11 @@ def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
         p: Any = Process(target=tag_worker, args=(tag,))
         p.start()
         procesess.append(p)
-    # I am NOT really shure about this, but it works.
-    # Will welcome any clarification or corrections.
+
+    # pylint: disable=expression-not-assigned
     [proc.join() for proc in procesess]
+
+    return [proc.exitcode for proc in procesess]
 
 
 def main() -> None:
