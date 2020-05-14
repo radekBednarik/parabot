@@ -1,6 +1,3 @@
-"""
-https://gist.github.com/oisinmulvihill/45c14271fad7794a4a52516ecb784e69
-"""
 from contextlib import contextmanager
 from pathlib import Path, PurePath
 from typing import Any
@@ -12,6 +9,10 @@ from parabot import parabot
 
 @contextmanager
 def not_raises(ExpectedException):
+    """
+    See:
+        https://gist.github.com/oisinmulvihill/45c14271fad7794a4a52516ecb784e69
+    """
     try:
         yield
 
