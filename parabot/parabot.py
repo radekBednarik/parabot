@@ -1,6 +1,6 @@
 from io import StringIO
 from multiprocessing import Process, get_context
-from multiprocessing.context import TimeoutError
+from multiprocessing.context import TimeoutError  # pylint: disable=redefined-builtin
 from typing import Any, Callable, List, Optional, Union
 
 from robot.run import run  # type: ignore
@@ -15,6 +15,7 @@ from parabot.utils import (
 
 
 def _check_stderr(stderr: Any) -> Optional[int]:
+    # pylint: disable=no-else-return
     if stderr.getvalue() != "":
         print(stderr.getvalue())
         stderr.close()
@@ -126,6 +127,7 @@ def pool_tag_workers(tag_worker: Callable, tags: List[str]) -> None:
         procesess.append(p)
     # I am NOT really shure about this, but it works.
     # Will welcome any clarification or corrections.
+    # pylint: disable=expression-not-assigned
     [proc.join() for proc in procesess]
 
 

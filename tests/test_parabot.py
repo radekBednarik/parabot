@@ -1,6 +1,5 @@
-from multiprocessing.context import TimeoutError
 from pathlib import PurePath, Path
-from typing import Any, List, Callable, Union, Optional
+from typing import Any, List, Union, Optional
 
 import pytest  # type: ignore
 
@@ -89,10 +88,10 @@ def run_timeout_pool_path_workers() -> Union[List[Optional[int]], int]:
     )
 
 
-class TestParabotWorkers(object):
+class TestParabotWorkers:
     def test_path_worker_valid(self, run_valid_path_worker):
         status: Optional[int] = run_valid_path_worker
-        assert status == None
+        assert status is None
 
     def test_path_worker_invalid(self, run_invalid_path_worker):
         status: Optional[int] = run_invalid_path_worker
@@ -100,14 +99,14 @@ class TestParabotWorkers(object):
 
     def test_tag_worker_valid(self, run_valid_tag_worker):
         status: Optional[int] = run_valid_tag_worker
-        assert status == None
+        assert status is None
 
     def test_tag_worker_invalid(self, run_invalid_tag_worker):
         status: Optional[int] = run_invalid_tag_worker
         assert status == 1
 
 
-class TestParabotPools(object):
+class TestParabotPools:
     def test_valid_pool_path_workers(self, run_valid_pool_path_workers):
         status: List[Optional[int]] = run_valid_pool_path_workers
         assert 1 not in status
