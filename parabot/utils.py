@@ -60,7 +60,10 @@ def get_parent_dir(test_filepath: Any) -> Any:
     See:
         https://docs.python.org/3/library/pathlib.html
     """
-    return PurePath(test_filepath).parent
+    try:
+        return PurePath(test_filepath).parent
+    except TypeError as e:
+        print(f"You can provide type str, bytes or os.PathLike object.\n{str(e)}")
 
 
 def create_output_folder(basepath: Any, filename: str) -> Any:
