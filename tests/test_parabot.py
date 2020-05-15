@@ -1,5 +1,6 @@
-from pathlib import PurePath, Path
-from typing import Any, List, Union, Optional
+from pathlib import Path, PurePath
+from subprocess import run
+from typing import Any, List, Optional, Union
 
 import pytest  # type: ignore
 
@@ -93,6 +94,23 @@ def run_valid_pool_tag_workers() -> List[Optional[int]]:
     return parabot.pool_tag_workers(parabot.tag_worker, ["reg", "smoke"])
 
 
+@pytest.fixture(
+    scope="session",
+    params=[
+        "-a",
+        "-f examples/test_project_01/suite_01 examples/test_project_02/suite_02",
+        "-t reg smoke",
+    ],
+)
+def run_e2e(request) -> Any:
+    return run(
+        f"python3 -m parabot {request.param}",
+        check=True,
+        shell=True,
+        capture_output=True,
+    )
+
+
 class TestParabotWorkers:
     def test_path_worker_valid(self, run_valid_path_worker):
         status: Optional[int] = run_valid_path_worker
@@ -131,3 +149,9 @@ class TestParabotPools:
                 check.append(False)
 
         assert all(check) is True
+
+
+class TestE2E:
+    def test_e2e(self, run_e2e):
+        status: Any = run_e2e
+        assert status.returncode == 0
